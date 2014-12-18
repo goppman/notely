@@ -89,3 +89,6 @@ ul#notes {
   width: 360px; }
 span.login {
   margin-left: 1em; }
+ta.editor {
+  margin-top: .4em; 
+}
