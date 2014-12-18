@@ -16,6 +16,7 @@ noteApp.service('NotesBackend', function($http) {
     var notes = [];
 
     this.getNotes = function () {
+      // get retrieves an object in a http server
       return notes;
     };
 
@@ -26,7 +27,7 @@ noteApp.service('NotesBackend', function($http) {
 
     };
     this.postNote = function(note) {
-
+// post adds an object in a http server
           $http.post(postNotePath, {
             api_key: apiKey,
             note:{
@@ -36,7 +37,29 @@ noteApp.service('NotesBackend', function($http) {
           }).success(function(noteData){
              notes.unshift(noteData);
         });
-    }
+    };
+
+    this.replaceNote = function(note){
+            for(var i=0; i <notes.length; i++){
+              if (notes[i].id === note.id){
+                notes[i] = note;
+
+            }
+          }
+    };
+
+    this.updateNote = function(note){
+      // put updates an object in a http server
+      var self = this;
+      $http.put(apiBasePath + 'notes/' + note.id, {
+        api_key: apiKey,
+        note: note,
+      }).success(function(newNoteData) {
+      //  self.fetchNotes();
+      self.replaceNote(newNoteData)
+
+      })
+    };
 });
 
 noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
@@ -62,11 +85,20 @@ noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
    };
 
    $scope.loadNote = function(noteId) {
-     $scope.note = this.findNote(noteId);
+     $scope.note = JSON.parse(JSON.stringify(this.findNote(noteId)));
    };
 
   $scope.commit = function(){
-    NotesBackend.postNote($scope.note);
+    if ($scope.note && $scope.note.id){
+
+        NotesBackend.updateNote($scope.note);
+
+    }else {
+      NotesBackend.postNote($scope.note);
+
+      //post new not
+    }
+
   };
 
 
