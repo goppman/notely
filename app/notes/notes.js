@@ -34,7 +34,7 @@ noteApp.service('NotesBackend', function($http) {
               body_html: note.body_html
             }
           }).success(function(noteData){
-             notes = [noteData].concat(notes);
+             notes.unshift(noteData);
         });
     }
 });
@@ -44,6 +44,25 @@ noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
 
    $scope.notes = function(){
      return NotesBackend.getNotes();
+   };
+
+   $scope.hasNotes = function () {
+     return this.notes().length > 0;
+   };
+
+   $scope.findNote = function(noteId){
+     var notes = this.notes();
+     for (var i=0; i < notes.length; i++){
+       if (notes[i].id === noteId){
+         return notes[i];
+       }
+
+     }
+
+   };
+
+   $scope.loadNote = function(noteId) {
+     $scope.note = this.findNote(noteId);
    };
 
   $scope.commit = function(){
