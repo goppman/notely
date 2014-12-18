@@ -2,7 +2,7 @@ Welcome to Notely
 
 <form ng-submit="commit()">
   <p>
-    <input type="text" name="title" id="note_title" placeholder="Title your note" ng-model="note.title" value="{{ note.title }}">
+    <input type="text" name="title" id="note_title" placeholder="Title your note" ng-model="note.title" value="{{ note.title }}" focus-on="noteCleared">
   </p>
   <p>
     <textarea name="body_html" id="note_body_html" ng-model="note.body_html" placeholder="just start typing"></textarea>
@@ -10,7 +10,11 @@ Welcome to Notely
 
   <div class="form-actions">
     <input type="submit" name="commit" value="{{ buttonText(note) }}"   class="btn btn-default">
+    <a ng-click="deleteNote()" ng-show="note.id">
+      <i  class= "fa fa-trash-o"></i>
+    </a>
   </div>
+
 
 
 </form>

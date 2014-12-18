@@ -15,6 +15,18 @@ noteApp.service('NotesBackend', function($http) {
     var apiKey = '$2a$10$zO5VPjSSrfJn3tXjk873VubX/ckdlj5HQC7/yTZ/WF.6dwjzehSd.';
     var notes = [];
 
+
+   this.deleteNote= function(note){
+            var self = this;
+             $http.delete(apiBasePath + 'notes/' + note.id + '?api_key=' + apiKey)
+             .success(function() {
+              self.fetchNotes();
+
+             });
+   };
+
+
+
     this.getNotes = function () {
       // get retrieves an object in a http server
       return notes;
@@ -48,6 +60,8 @@ noteApp.service('NotesBackend', function($http) {
           }
     };
 
+
+
     this.updateNote = function(note){
       // put updates an object in a http server
       var self = this;
@@ -60,6 +74,7 @@ noteApp.service('NotesBackend', function($http) {
 
       })
     };
+
 });
 
 noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
@@ -102,16 +117,19 @@ noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
    };
 
 
+
   $scope.clearNote = function(){
    //clearing note in entry form
-    $scope.note = {
-
-    };
-    document.getElementById('note_title').focus();
-
-
+    $scope.note = {};
+    $scope.$broadcast('noteCleared');
+    
   };
 
+  $scope.deleteNote = function(){
+    NotesBackend.deleteNote($scope.note);
+    $scope.clearNote();
+
+  };
 
    $scope.loadNote = function(noteId) {
      $scope.note = JSON.parse(JSON.stringify(this.findNote(noteId)));

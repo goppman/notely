@@ -1,12 +1,12 @@
   <nav id="sidebar">
-    <div class="well">
+
       <!--  New Note Button -->
       <button   ng-click="clearNote()"  class="new-note btn btn-default" >New Note
         <i class= "fa fa-plus"></i>
       </button>
 
       <h3 ng-show="hasNotes()">My Notes</h3>
-      <ul ng-show="hasNotes()">
+      <ul id="notes" ng-show="hasNotes()">
         <li
         ng-click="loadNote(note.id)"
         ng-repeat="note in notes() | limitTo: 10">
@@ -15,5 +15,5 @@
           <div class="note-body">{{note.body_text}}</div>
         </li>
       </ul>
-    </div>
+
   </nav>
