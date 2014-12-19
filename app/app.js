@@ -55,7 +55,7 @@ app.service('NotesBackend', function($http, $cookies) {
     };
 
     this.fetchNotes = function () {
-      debugger;
+  
       if (user.api_key !== undefined ) {
         $http.get(apiBasePath + 'notes.json?api_key=' + user.api_key).success(function(noteData){
          notes = noteData;
