@@ -9,8 +9,9 @@ noteApp.config(['$routeProvider', function($routeProvider) {
   });
 }])
 
-noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
-   NotesBackend.fetchNotes();
+noteApp.controller('NotesController', function($scope, NotesBackend) {
+
+  NotesBackend.fetchNotes();
 
   //  $scope.buttonDelete = function(note){
   //    if (note.id) {
@@ -19,6 +20,10 @@ noteApp.controller('NotesController', function($scope, $http, NotesBackend) {
   //
   //    }
   //  };
+
+  $scope.user = function() {
+    return NotesBackend.getUser();
+  };
 
    $scope.buttonText = function(note) {
      if (note && note.id) {
